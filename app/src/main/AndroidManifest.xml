@@ -29,7 +29,7 @@
         <!-- Add your API key here -->
         <meta-data
             android:name="com.razorpay.ApiKey"
-            android:value="rzp_live_ILgsfZCZoFIKMb"
+            android:value="rzp_test_yZVzGGdtFuTBre"
             />
 
     </application>

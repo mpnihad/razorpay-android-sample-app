@@ -9,6 +9,7 @@ import android.widget.Toast
 import com.razorpay.Checkout
 import com.razorpay.PaymentResultListener
 import com.razorpay.sampleapp.R
+import org.json.JSONArray
 import org.json.JSONObject
 import java.lang.Exception
 
@@ -38,20 +39,40 @@ class PaymentActivity: Activity(), PaymentResultListener {
         val activity:Activity = this
         val co = Checkout()
 
+        co.setFullScreenDisable(false)
+
         try {
             val options = JSONObject()
             options.put("name","Razorpay Corp")
             options.put("description","Demoing Charges")
-            //You can omit the image option to fetch the image from dashboard
             options.put("image","https://s3.amazonaws.com/rzp-mobile/images/rzp.png")
             options.put("currency","INR")
             options.put("amount","100")
 
-            val prefill = JSONObject()
-            prefill.put("email","test@razorpay.com")
-            prefill.put("contact","9876543210")
 
-            options.put("prefill",prefill)
+            // if we want upi as prefered methord but other payment will be available
+//            val prefill = JSONObject()
+//            prefill.put("email","test@razorpay.com")
+//            prefill.put("contact","9876543210")
+//            prefill.put("method","upi")
+//
+//            options.put("prefill",prefill)
+
+
+
+
+           // if we want to remove all the payment except upi
+            val methord = JSONObject()
+
+            methord.put("netbanking", false)
+            methord.put("card", false)
+            methord.put("upi", true)
+            methord.put("wallet", false)
+
+            options.put("method",methord)
+
+
+            Log.d(TAG, "startPayment: ${options.toString()}")
             co.open(activity,options)
         }catch (e: Exception){
             Toast.makeText(activity,"Error in payment: "+ e.message,Toast.LENGTH_LONG).show()
